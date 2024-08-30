@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "net.javaci.grpc";
+option java_outer_classname = "WeatherReporterProto";
+
+
+// Interface exported by the server.
+service WeatherReporter {
+  rpc GetCityWeatherSingleDay(LocationDate) returns (CityWeatherData) {}
+  rpc GetCityWeatherMultipleDays(LocationDatePeriod) returns (stream CityWeatherData) {}
+}
+
+
+message Weather {
+  float temperature = 1; float humidity = 2; float wind = 3;
+}
+message Date { int32 day = 1; int32 month = 2; int32 year = 3;
+}
+message Location { string city = 1; string country = 2;
+}
+message LocationDate { Location location = 1; Date date = 2;
+}
+message LocationDatePeriod { Location location = 1;
+  Date startDate = 2;
+  Date endDate = 3;
+}
+message CityWeatherData { Weather weather = 1; LocationDate locationDate= 2;
+}
